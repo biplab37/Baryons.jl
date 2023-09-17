@@ -1,5 +1,9 @@
 module Baryons
 
-# Write your package code here.
+using UsefulFunctions
+using QuadGK
+
+include("polarisation.jl")
+include("helperfunctions.jl")
 
 end
