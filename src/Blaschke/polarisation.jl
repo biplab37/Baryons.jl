@@ -1,4 +1,4 @@
-function energy_q(T,\mu,q, param)
+function energy_q(T, μ, q, param)
     return sqrt(q^2 + mass_q(T, μ, param)^2)
 end
 
