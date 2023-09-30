@@ -5,6 +5,7 @@ using QuadGK, NLsolve
 
 include("helperfunctions.jl")
 include("parameters.jl")
+include("polarisation_common.jl")
 
 include("Blaschke/gapeqn.jl")
 include("Blaschke/mesons.jl")

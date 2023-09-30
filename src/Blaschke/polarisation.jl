@@ -16,7 +16,7 @@ function integrand_pol(T, μ, ω, param, p)
     return (term1 + term2 + term3 + term4)/(4*eq*eD)
 end
 
-function polarisation(T, μ, ω, param)
+function polarisation_B(T, μ, ω, param)
     return 4*param.m*integrate(p->p^2*integrand_pol(T,μ,ω,param,p),0, param.Λ)/(2π^2)
 end
 
