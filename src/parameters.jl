@@ -3,7 +3,8 @@ Base.@kwdef mutable struct Parameters
     m0 = 0.005588
     Gs = 2.442/Λ^2 
     Gv = Gs/2
-    GD = 3Gs/4
+    eta_d = 0.75
+    GD = eta_d*Gs
 end
 
 export Parameters
