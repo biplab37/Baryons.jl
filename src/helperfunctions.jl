@@ -10,9 +10,12 @@ function fzero(f, guess)
     return nlsolve(x->f(x...), [guess]).zero[1]
 end
 
-function cauchy_quadgk(g, a, b; kws...)
-    a < 0 < b || throw(ArgumentError("domain must include 0"))
-    g₀ = g(0)
-    g₀int = b == -a ? zero(g₀) : g₀ * log(abs(b/a)) / (b - a)
-    return quadgk_count(x -> (g(x)-g₀)/x + g₀int, a, 0, b; kws...)
+function quadgk_cauchy(f, a, c, b)
+    if (a-c)*(b-c) >= 0
+        return integrate(x->f(x)/(x-c), a, b)
+    else
+        fc = f(c)
+        g(x) = (f(x) - fc) / (x - c)
+        return quadgk(g, a, c, b)[1] + fc * log(abs((b - c)/(a - c)))
+    end
 end
