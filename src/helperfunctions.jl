@@ -19,3 +19,7 @@ function quadgk_cauchy(f, a, c, b)
         return quadgk(g, a, c, b)[1] + fc * log(abs((b - c) / (a - c)))
     end
 end
+
+function deriv(f, point)
+    return central_fdm(5, 1)(f, point)
+end

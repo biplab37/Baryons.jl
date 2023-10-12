@@ -1,11 +1,40 @@
-function coupling(param)
-    return 4 * g2(param) / param.m
+function coupling(T, μ, param)
+    return 4 * g2(T, μ, param) / massgap(T, μ, param)[1]
 end
 
-function g2(param)
-    return 4 * param.mD / derivative(polarisation, param.mD)
+function g2(T, μ, param)
+    mD = mass_diquark(T, μ, param)
+    return 4 * mD / deriv(x -> polarisation_diquark(T, μ, x, param), mD)
 end
 
-function baryon_mass(T, μ, param)
-    return bisection(x -> 1 - coupling(param) * polarisation(T, μ, x, param), 0, 1.2)
+function mass_baryon(T, μ, param)
+    return fzero(x -> 1 - coupling(T, μ, param) * polarisation_baryon(T, μ, x, param), 0.9)
 end
+
+function mass_baryon_func(T, μ, param)
+    return x -> 1 - coupling(T, μ, param) * polarisation_baryon(T, μ, x, param)
+end
+
+function mass_baryon(trange::AbstractRange, μ, param; initial_guess=0.9)
+    f(T, ω) = 1 - coupling(T, μ, param) * polarisation_baryon(T, μ, ω, param)
+    masses = zeros(length(trange))
+    guess = initial_guess
+    for (i, t) in enumerate(trange)
+        guess = fzero(ω -> f(t, ω), guess)
+        masses[i] = guess
+    end
+    return masses
+end
+
+function mass_baryon(T, μrange::AbstractRange, param; initial_guess=0.9)
+    f(μ, ω) = 1 - coupling(T, μ, param) * polarisation_baryon(T, μ, ω, param)
+    masses = zeros(length(μrange))
+    guess = initial_guess
+    for (i, μ) in enumerate(μrange)
+        guess = fzero(ω -> f(μ, ω), guess)
+        masses[i] = guess
+    end
+    return masses
+end
+
+export mass_baryon

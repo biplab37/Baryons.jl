@@ -13,9 +13,10 @@ function integrand_pol(T, μ, ω, param, p)
     term2 = (1 - numberF(T, -μ, eq) + numberB(T, -μ, eD)) * PrincipalValue(ω - eq - eD)
     term3 = (-numberF(T, -μ, eq) - numberB(T, μ, eD)) * PrincipalValue(ω - eq + eD)
     term4 = (numberF(T, μ, eq) + numberB(T, -μ, eD)) * PrincipalValue(ω + eq - eD)
-    return [term1, term2, term3, term4] / (4 * eq * eD)
+    return (term1 - term2 + term3 + term4) / (4 * eq * eD)
 end
 
-function polarisation_B(T, μ, ω, param)
-    return 4 * param.m * integrate(p -> p^2 * integrand_pol(T, μ, ω, param, p), 0, param.Λ) / (2π^2)
+function polarisation_baryon(T, μ, ω, param)
+    m = massgap(T, μ, param)[1]
+    return 4 * m * integrate(p -> p^2 * integrand_pol(T, μ, ω, param, p), 0, param.Λ) / (2π^2)
 end

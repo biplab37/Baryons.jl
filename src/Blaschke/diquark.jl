@@ -18,8 +18,10 @@ end
 
 function polarisation_diquark(T, μ, ω, param)
     m = massgap(T, μ, param)[1]
-    integrand(Ep) = -(16 / π^2) * Ep * sqrt(Ep^2 - m^2) * ((Ep - μ) * (1 - 2 * numberF(T, μ, Ep)) * PrincipalValue(ω^2 - 4 * (Ep - μ)^2) + (Ep + μ) * (1 - 2 * numberF(T, -μ, Ep)) * PrincipalValue(ω^2 - 4 * (Ep + μ)^2))
-    return integrate(integrand, m, sqrt(param.Λ^2 + m^2))
+    integrand1(Ep) = (2 / (π^2)) * Ep * sqrt(Ep^2 - m^2) * (1 - 2 * numberF(T, μ, Ep))
+    integrand2(Ep) = (2 / (π^2)) * Ep * sqrt(Ep^2 - m^2) * (1 - 2 * numberF(T, -μ, Ep))
+    cutoffE = sqrt(param.Λ^2 + m^2)
+    return quadgk_cauchy(integrand1, m, μ + ω / 2, cutoffE) + quadgk_cauchy(integrand1, m, μ - ω / 2, cutoffE) + quadgk_cauchy(integrand2, m, -μ + ω / 2, cutoffE) + quadgk_cauchy(integrand2, m, -μ - ω / 2, cutoffE)
 end
 
 function mass_diquark_func(T, μ, param)
@@ -29,10 +31,10 @@ end
 
 function mass_diquark(T, μ, param)
     f(ω) = 1 / param.GD - polarisation_diquark(T, μ, ω, param)
-    return fzero(f, 0.5)
+    return fzero(f, 0.6)
 end
 
-function mass_diquark(trange::AbstractRange, μ, param; initial_guess=0.5)
+function mass_diquark(trange::AbstractRange, μ, param; initial_guess=0.6)
     f(T, ω) = 1 / param.GD - polarisation_diquark(T, μ, ω, param)
     masses = zeros(length(trange))
     guess = initial_guess
@@ -43,12 +45,12 @@ function mass_diquark(trange::AbstractRange, μ, param; initial_guess=0.5)
     return masses
 end
 
-function mass_diquark(T, μrange::AbstractRange, param)
+function mass_diquark(T, μrange::AbstractRange, param; initial_guess=0.5)
     f(μ, ω) = 1 / param.GD - polarisation_diquark(T, μ, ω, param)
     masses = zeros(length(μrange))
     guess = initial_guess
     for (i, μ) in enumerate(μrange)
-        guess = fzero(ω -> f(μ, ω), 0.0, 1.0)
+        guess = fzero(ω -> f(μ, ω), guess)
         masses[i] = guess
     end
     return masses
