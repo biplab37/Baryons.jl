@@ -1,5 +1,5 @@
 function integrate(func, a, b)
-    return quadgk(func, a, b, rtol=1e-3, maxevals=1e5)[1]
+    return quadgk(func, a, b, rtol = 1e-3, maxevals = 1e5)[1]
 end
 
 function En(p, m)

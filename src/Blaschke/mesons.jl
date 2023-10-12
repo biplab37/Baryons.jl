@@ -7,7 +7,11 @@ function imagpart_sigma(T, μ, ω, param)
     if ω^2 < 4 * m^2
         return 0.0
     else
-        return 3 * ω^2 * (1 - 4m^2 / ω^2) * sqrt(1 - 4m^2 / ω^2) * (1 - numberF(T, -μ, ω / 2) - numberF(T, μ, ω / 2)) / π
+        return 3 *
+               ω^2 *
+               (1 - 4m^2 / ω^2) *
+               sqrt(1 - 4m^2 / ω^2) *
+               (1 - numberF(T, -μ, ω / 2) - numberF(T, μ, ω / 2)) / π
     end
 end
 
@@ -17,21 +21,42 @@ end
 
 function polarisation_sigma2(T, μ, ω, param)
     m = massgap(T, μ, param)[1]
-    integrand(Ep) = 12 * Ep * sqrt(Ep^2 - m^2) * (1 - m^2 / Ep^2) * ((1 - numberF(T, μ, Ep) - numberF(T, -μ, Ep)) * (PrincipalValue(ω + 2Ep) - PrincipalValue(ω - 2Ep))) / π^2
+    integrand(Ep) =
+        12 *
+        Ep *
+        sqrt(Ep^2 - m^2) *
+        (1 - m^2 / Ep^2) *
+        (
+            (1 - numberF(T, μ, Ep) - numberF(T, -μ, Ep)) *
+            (PrincipalValue(ω + 2Ep) - PrincipalValue(ω - 2Ep))
+        ) / π^2
     return integrate(integrand, m, sqrt(param.Λ^2 + m^2))
 end
 
 function polarisation_sigma(T, μ, ω, param)
     m = massgap(T, μ, param)[1]
     cutoffE = sqrt(param.Λ^2 + m^2)
-    integrand(Ep) = 12 * Ep * sqrt(Ep^2 - m^2) * (1 - m^2 / Ep^2) * ((1 - numberF(T, μ, Ep) - numberF(T, -μ, Ep))) / (2π^2)
-    return quadgk_cauchy(integrand, m, ω / 2, cutoffE) + quadgk_cauchy(integrand, m, -ω / 2, cutoffE)
+    integrand(Ep) =
+        12 *
+        Ep *
+        sqrt(Ep^2 - m^2) *
+        (1 - m^2 / Ep^2) *
+        ((1 - numberF(T, μ, Ep) - numberF(T, -μ, Ep))) / (2π^2)
+    return quadgk_cauchy(integrand, m, ω / 2, cutoffE) +
+           quadgk_cauchy(integrand, m, -ω / 2, cutoffE)
 end
 
 function polarisation_sigma1(T, μ, ω, param)
     m = massgap(T, μ, param)[1]
     Ep(p) = sqrt(p^2 + m^2)
-    integrand(p) = 12 * p^2 * (1 - m^2 / Ep(p)^2) * ((1 - numberF(T, μ, Ep(p)) - numberF(T, -μ, Ep(p))) * (PrincipalValue(ω + 2Ep(p)) - PrincipalValue(ω - 2Ep(p)))) / π^2
+    integrand(p) =
+        12 *
+        p^2 *
+        (1 - m^2 / Ep(p)^2) *
+        (
+            (1 - numberF(T, μ, Ep(p)) - numberF(T, -μ, Ep(p))) *
+            (PrincipalValue(ω + 2Ep(p)) - PrincipalValue(ω - 2Ep(p)))
+        ) / π^2
     return integrate(integrand, 0, param.Λ)
 end
 
@@ -39,7 +64,8 @@ function polarisation_sigma(ω, param)
     m = massgap(0.01, 0.0, param)[1]
     cutoffE = sqrt(param.Λ^2 + m^2)
     integrand(Ep) = 12 * Ep * sqrt(Ep^2 - m^2) * (1 - m^2 / Ep^2) / (2π^2)
-    return quadgk_cauchy(integrand, m, ω / 2, cutoffE) + quadgk_cauchy(integrand, m, -ω / 2, cutoffE)
+    return quadgk_cauchy(integrand, m, ω / 2, cutoffE) +
+           quadgk_cauchy(integrand, m, -ω / 2, cutoffE)
 end
 
 function mass_sigma_func(param)
@@ -90,7 +116,10 @@ function imagpart_phi(T, μ, ω, param)
     if ω^2 < 4 * m^2
         return 0.0
     else
-        return 3 * ω^2 * sqrt(1 - 4m^2 / ω^2) * (1 - numberF(T, -μ, ω / 2) - numberF(T, μ, ω / 2)) / π
+        return 3 *
+               ω^2 *
+               sqrt(1 - 4m^2 / ω^2) *
+               (1 - numberF(T, -μ, ω / 2) - numberF(T, μ, ω / 2)) / π
     end
 end
 
@@ -101,8 +130,10 @@ end
 function polarisation_phi(T, μ, ω, param)
     m = massgap(T, μ, param)[1]
     cutoffE = sqrt(param.Λ^2 + m^2)
-    integrand(Ep) = 12 * Ep * sqrt(Ep^2 - m^2) * (1 - numberF(T, μ, Ep) - numberF(T, -μ, Ep)) / (2π^2)
-    return quadgk_cauchy(integrand, m, ω / 2, cutoffE) + quadgk_cauchy(integrand, m, -ω / 2, cutoffE)
+    integrand(Ep) =
+        12 * Ep * sqrt(Ep^2 - m^2) * (1 - numberF(T, μ, Ep) - numberF(T, -μ, Ep)) / (2π^2)
+    return quadgk_cauchy(integrand, m, ω / 2, cutoffE) +
+           quadgk_cauchy(integrand, m, -ω / 2, cutoffE)
 end
 
 function mass_phi_func(T, μ, param)

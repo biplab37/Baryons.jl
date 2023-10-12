@@ -18,5 +18,6 @@ end
 
 function polarisation_baryon(T, μ, ω, param)
     m = massgap(T, μ, param)[1]
-    return 4 * m * integrate(p -> p^2 * integrand_pol(T, μ, ω, param, p), 0, param.Λ) / (2π^2)
+    return 4 * m * integrate(p -> p^2 * integrand_pol(T, μ, ω, param, p), 0, param.Λ) /
+           (2π^2)
 end

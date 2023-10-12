@@ -15,7 +15,7 @@ function mass_baryon_func(T, μ, param)
     return x -> 1 - coupling(T, μ, param) * polarisation_baryon(T, μ, x, param)
 end
 
-function mass_baryon(trange::AbstractRange, μ, param; initial_guess=0.9)
+function mass_baryon(trange::AbstractRange, μ, param; initial_guess = 0.9)
     f(T, ω) = 1 - coupling(T, μ, param) * polarisation_baryon(T, μ, ω, param)
     masses = zeros(length(trange))
     guess = initial_guess
@@ -26,7 +26,7 @@ function mass_baryon(trange::AbstractRange, μ, param; initial_guess=0.9)
     return masses
 end
 
-function mass_baryon(T, μrange::AbstractRange, param; initial_guess=0.9)
+function mass_baryon(T, μrange::AbstractRange, param; initial_guess = 0.9)
     f(μ, ω) = 1 - coupling(T, μ, param) * polarisation_baryon(T, μ, ω, param)
     masses = zeros(length(μrange))
     guess = initial_guess
