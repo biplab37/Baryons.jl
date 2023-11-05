@@ -1,5 +1,5 @@
 function integrate(func, a, b)
-    return quadgk(func, a, b, rtol = 1e-3, maxevals = 1e5)[1]
+    return quadgk(func, a, b, rtol=1e-3, maxevals=1e4)[1]
 end
 
 function En(p, m)
@@ -7,7 +7,8 @@ function En(p, m)
 end
 
 function fzero(f, guess)
-    return nlsolve(x -> f(x...), [guess]).zero[1]
+    sol = nlsolve(x -> f(x...), [guess])
+    return sol.zero[1]
 end
 
 function quadgk_cauchy(f, a, c, b)

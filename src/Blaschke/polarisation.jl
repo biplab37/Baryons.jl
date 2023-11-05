@@ -6,6 +6,7 @@ function energy_D(T, μ, q, param)
     return sqrt(q^2 + mass_diquark(T, μ, param)^2)
 end
 
+#TODO: rewrite this function to handle the principal value integral better.
 function integrand_pol(T, μ, ω, param, p)
     eq = energy_q(T, μ, p, param)
     eD = energy_D(T, μ, p, param)
@@ -18,6 +19,5 @@ end
 
 function polarisation_baryon(T, μ, ω, param)
     m = massgap(T, μ, param)[1]
-    return 4 * m * integrate(p -> p^2 * integrand_pol(T, μ, ω, param, p), 0, param.Λ) /
-           (2π^2)
+    return 4 * m * integrate(p -> p^2 * integrand_pol(T, μ, ω, param, p), 0, param.Λ) / (2π^2)
 end
