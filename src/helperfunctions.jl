@@ -12,15 +12,9 @@ function fzero(f, guess)
 end
 
 function quadgk_cauchy(f, a, c, b)
-    if (a - c) * (b - c) >= 0
-        return integrate(x -> f(x) / (x - c), a, b)
-    else
-        fc = f(c)
-        g(x) = (f(x) - fc) / (x - c)
-        return quadgk(g, a, c, b)[1] + fc * log(abs((b - c) / (a - c)))
-    end
+    return PVintegral(f, a, b, c, integrate)
 end
 
 function deriv(f, point)
-    return central_fdm(5, 1)(f, point)
+    return _derivative(f, point)
 end

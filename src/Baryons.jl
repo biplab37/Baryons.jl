@@ -1,6 +1,7 @@
 module Baryons
 
-using UsefulFunctions, FiniteDifferences, ForwardDiff
+using UsefulFunctions
+# using FiniteDifferences, ForwardDiff
 using QuadGK, NLsolve
 
 include("helperfunctions.jl")
