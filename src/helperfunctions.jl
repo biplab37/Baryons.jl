@@ -8,7 +8,11 @@ end
 
 function fzero(f, guess)
     sol = nlsolve(x -> f(x...), [guess])
-    return sol.zero[1]
+    if sol.f_converged
+        return sol.zero[1]
+    else
+        return 0.0
+    end
 end
 
 function quadgk_cauchy(f, a, c, b)
@@ -16,5 +20,5 @@ function quadgk_cauchy(f, a, c, b)
 end
 
 function deriv(f, point)
-    return _derivative(f, point)
+    return UsefulFunctions._derivative(f, point)
 end

@@ -44,7 +44,7 @@ function mass_diquark(T, μ, param)
     return fzero(f, 0.6)
 end
 
-function mass_diquark(trange::AbstractRange, μ, param; initial_guess = 0.6)
+function mass_diquark(trange::AbstractRange, μ, param; initial_guess=0.6)
     f(T, ω) = 1 / param.GD - polarisation_diquark(T, μ, ω, param)
     masses = zeros(length(trange))
     guess = initial_guess
@@ -55,7 +55,7 @@ function mass_diquark(trange::AbstractRange, μ, param; initial_guess = 0.6)
     return masses
 end
 
-function mass_diquark(T, μrange::AbstractRange, param; initial_guess = 0.5)
+function mass_diquark(T, μrange::AbstractRange, param; initial_guess=0.5)
     f(μ, ω) = 1 / param.GD - polarisation_diquark(T, μ, ω, param)
     masses = zeros(length(μrange))
     guess = initial_guess
